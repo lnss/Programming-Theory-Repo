@@ -9,10 +9,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI lifeText;
+
     public GameObject titleScreen;
     public GameObject gamePlayScreen;
     public GameObject gameOverScreen;
     public GameObject levelCompletedScreen;
+    public GameObject cardGroupPrefab;
+    public GameObject originalCardGroup;
     
     public static int resultNum = 0;
     public static int goalNum = 10;
@@ -20,8 +23,9 @@ public class GameManager : MonoBehaviour
 
     public static int score;
     public static int life;
+
     private int timeRemain;
-    private int timeMax = 20;
+    private int timeMax = 30;
     
     private bool isGameActive = false;
     private int cardNum;
@@ -66,7 +70,12 @@ public class GameManager : MonoBehaviour
         
     }
 
-    
+    void SpawnCardGroup()
+    {
+        GameObject newCardGroup = Instantiate(cardGroupPrefab, originalCardGroup.transform.position, cardGroupPrefab.transform.rotation) as GameObject;
+        newCardGroup.transform.SetParent(gamePlayScreen.transform);
+    }
+
     // Update score with value from target clicked
     public void UpdateScore(int score)
     {
@@ -102,6 +111,15 @@ public class GameManager : MonoBehaviour
         timeText.text = "Time: " + time;
     }
 
+    public void RefreshCardGroup()
+    {
+        for(int i = 0; i< cardNum; i++)
+        {
+            Destroy(GameObject.FindGameObjectsWithTag("NotSelected")[i]);
+        }
+        SpawnCardGroup();
+        life--;
+    }
 
     // Stop game, bring up game over text and restart button
     public void GameOver()

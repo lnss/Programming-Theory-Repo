@@ -9,8 +9,10 @@ public class Card : MonoBehaviour
 {
     public TextMeshProUGUI numText;
 
+    //ENCAPSULASION
+    public int numInt { get; private set; }
+
     private int scoreToAdd = 50;
-    private int numInt;
     private int upperBound = 10;
     private int lowerBound = 1;
 
@@ -75,7 +77,7 @@ public class Card : MonoBehaviour
 
     public void WrongMatch()
     {
-        GameManager.life -= 1;
+        GameManager.life--;
         GameManager.cardSelected[0].tag = "NotSelected";
         GameManager.cardSelected[1].tag = "NotSelected";
         GameManager.cardSelected.Clear();
